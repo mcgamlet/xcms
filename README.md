@@ -16,7 +16,7 @@ It's alpha version, and distributed as is.
 * Python & Django on server side
 * Ajax-based monitoring
 * Role-based control
-* Available in source and .xva appliance
+* Available in source and .xva appliance (see INSTALL paragraph)
 * Licensed under the [MPL 2.0](http://www.mozilla.org/MPL/2.0/)
 
 ### Screenshots
@@ -36,8 +36,12 @@ To use VNC [java jre](http://www.oracle.com/technetwork/java/javase/downloads/in
 
 python 2.* and django 1.3.1 must be installed(described in the INSTALL paragraph)
 
+
 ###How to install
 
+XCMs installed like any other Django apps. Here is a example of installation on Ubuntu 10.04:
 
+*Install Apache and mod_wsgi
+	`sudo apt-get install apache2 libapache2-mod-wsgi`
 
 
