@@ -107,9 +107,9 @@ And paste this configuration:
 
 And activate the site
 
-	`sudo a2ensite xcms`
+	sudo a2ensite xcms
 	
-	`sudo /etc/init.d/apache2 reload`
+	sudo /etc/init.d/apache2 reload
 	
 * Modify path.json file: enter existing ip, url, login and pass of your pool master and right path to the hosts and vms dump files
 
