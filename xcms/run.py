@@ -4,7 +4,6 @@ import sys              # System-specific parameters and functions.
 from XenAPI import Session
 from Balancer import init2
 from Balancer import vms2
-from Balancer import rebalance
 from Balancer import get_cpu
 import time
 import json
