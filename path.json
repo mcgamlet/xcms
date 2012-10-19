@@ -1,0 +1,1 @@
+{"url": "http://1.1.1.1", "ip": "1.1.1.1", "hosts": "/path/to/xcms/dump.json", "login": "yourlogin", "password": "yourpass", "vms": "/path/to/xcms/dump_vms.json"}

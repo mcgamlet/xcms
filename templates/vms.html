@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block head %}
+{%if request.user.is_superuser%}
+<li><a href="/monitoring/">Monitoring</a></li>
+<li  class="active"><a href="">VMs</a></li>
+<li><a href="/users/">Users</a></li>
+{%endif%}
+{% endblock %}
+
+{% block main %}
+<div id="console" title="VNC">
+    VNC cons
+</div>
+<textarea id="vnc" style="display: none">
+    <applet code="com/citrix/xenserver/console/Initialize.class"
+            archive="/media/js/XenServerConsole.jar"
+            width="600" height="450">
+        <PARAM NAME=SESSION VALUE="{$T.sesid}" />
+        <PARAM NAME=URL VALUE="{$T.loc}" />
+        <PARAM NAME=USEURL VALUE="true">
+    </applet>
+</textarea>
+<div class="container-fluid">
+    <div id="message">
+
+    </div>
+    <div class="control-group">
+        <div class="btn-group">
+            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+                Sort by
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class=""><a href="#" onclick="sort_click('name','vms')">Name</a> </li>
+                <li class=""><a href="#" onclick="sort_click('power_state','vms')">State</a> </li>
+                <li class=""><a href="#" onclick="sort_click('cpu','vms')">Load</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div id="main">
+
+    </div>
+    </div> <!--container-->
+
+<textarea id="template" style="display:none">
+    <div class="row-fluid">
+        {#foreach $T as vm}
+        {#if $T.vm.fluid}
+    </div>
+    <div class="row-fluid">
+        {#/if}
+        <div class="span4">
+            <div class="well">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <h3>VM: {$T.vm.name } </h3>
+                        {#if $T.vm.power_state!="Running"}
+                        <p style="color: #94201b">State: {$T.vm.power_state}</p>
+                        {#else}
+                        <p style="color: #1da31b">State: {$T.vm.power_state} on {$T.vm.resident_on.toUpperCase()}</p>
+                            {#/if}
+                    </div>
+                    <div class="span12">
+                        <div class="btn-group">
+                            {#foreach $T.vm.actions as action}
+                            {#if $T.action=="hard_reboot"}
+                            <a class="btn btn-mini" href="#" onclick="reboot_vm('{$T.vm.vmr}','{$T.vm.name}')" title="reboot"><i class="icon-refresh"></i></a>
+                            {#/if}
+                            {#if $T.action=="hard_shutdown"}
+                            <a class="btn btn-mini" href="#" onclick="shutdown_vm('{$T.vm.vmr}','{$T.vm.name}')" title="shutdown"><i class="icon-off"></i></a>
+                            {#/if}
+                            {#if $T.action=="pause"}
+                            <a class="btn btn-mini" href="#" onclick="play_pause('{$T.vm.vmr}','{$T.vm.name}')" title="pause"><i class="icon-pause"></i></a>
+                            {#/if}
+                            {#if $T.action=="unpause"}
+                            <a class="btn btn-mini" href="#" onclick="play_pause('{$T.vm.vmr}','{$T.vm.name}')" title="play"><i class="icon-play"></i></a>
+                            {#/if}
+                            {#if $T.action=="start_on"}
+                            <a class="btn btn-mini" href="#" onclick="start_vm('{$T.vm.vmr}','{$T.vm.name}')" title="start"><i class="icon-play"></i></a>
+                            {#/if}
+                            {#if $T.action=="pool_migrate"}
+                            <a class="btn btn-mini" onclick="migrate('{$T.vm.vmr}')" href="#" title="migrate"><i class="icon-arrow-right"></i></a>
+                            {#/if}
+                            {#if $T.action=="snapshot"}
+                            <a class="btn btn-mini" onclick="backup('{$T.vm.vmr}','{$T.vm.power_state}')" href="#" title="backup"><i class="icon-download-alt"></i></a>
+                            {#/if}
+                            {#/for}
+                            {#if $T.vm.power_state == "Running"}
+                            <a class="btn btn-mini" href="#" onclick="get_consoles('{$T.vm.vmr}','{$T.vm.name}','{$T.vm.unic}')">VNC</a>
+                            {#/if}
+                            {#if $T.vm.power_state == "Halted"}
+
+                            <a class="btn btn-mini" href="#" onclick="del_vm('{$T.vm.vmr}','{$T.vm.name}')" title="Delete"><i class="icon-trash"></i>Del</a>
+
+                            {#/if}
+                            <a class="btn btn-mini" href="/properties/vm/{$T.vm.vmr}"  title="properties"><i class="icon-cog"></i> </a>
+                        </div>
+
+
+
+
+                    </div>
+                </div><!--/fluid -->
+                {#if $T.vm.power_state == "Running"}
+                <div class="row-fluid">
+                    <div class="span6">
+                        <h6>Mem Load {$T.vm.mem} of {$T.vm.mem_max}</h6>
+                        <div class="progress progress-striped">
+                            <div class="bar"
+                                 style="width: {$T.vm.mem_load}%; ">{$T.vm.mem_load}%</div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <h6>CPU {$T.vm.cpu}%</h6>
+                        <div class="progress progress-striped">
+                            <div class="bar"
+                                 style="width: {$T.vm.cpu}%;">{$T.vm.cpu}%</div>
+                        </div>
+                    </div>
+                </div>
+                {#/if}
+                <section id="collapse">
+                    <div class="accordion" id="accordion2111">
+                        {#foreach $T.vm.snapshots as snapshot}
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{$T.snapshot.unic }" onclick="show_vm('{$T.snapshot.vmr}')">
+                                    Snapshot: <strong>{ $T.snapshot.name }</strong>   Created: <strong>{$T.snapshot.snapshot_time}</strong>
+                                </a>
+                            </div>
+                            <div id="{ $T.snapshot.unic }" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <div class="btn-group">
+                                        <a class="btn btn-mini" href="#" onclick="del_vm('{$T.snapshot.vmr}','{$T.snapshot.name}')" title="Delete"><i class="icon-trash"></i>Del</a>
+                                        <a class="btn btn-mini" href="#" onclick="revert('{ $T.snapshot.vmr }','{ $T.snapshot.name }','{ $T.vm.name }')" title="Revert to snapshot"><i class="icon-share-alt"></i></a>
+                                        <a class="btn btn-mini" onclick="from_snapshot('{ $T.snapshot.vmr }')" href="#"  title="New VM from snapshot"><i class="icon-plus"></i>New</a>
+                                        <a class="btn btn-mini" href="/export/{ $T.snapshot.vmr }"  title="Download snapshot"><i class="icon-download"></i>Download</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {#/for}
+                        </div>
+                    </section>
+
+
+            </div><!--/.well -->
+        </div><!--/span-->
+        {#/for}
+
+    </div><!--/row-->
+
+</textarea>
+
+<div class="modal" id="myModal" style="display: none;">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Action options</h3>
+    </div>
+    <div class="modal-body" id="mod">
+        <p>loading…</p>
+    </div>
+    <div class="modal-footer">
+        <div id="mdf"></div>
+
+        <a href="#" class="btn" onclick="$('#myModal').modal('hide')">Close</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/media/js/temp.js"></script>
+<script>
+    $(document).ready(function(){
+        localStorage.clear();
+        $("#main").setTemplateElement("template");
+        $("#main").processTemplateURL('/vms_ajax/');
+       // $("#main").processTemplateStart('/vms_ajax/', null, 5000);
+
+        setInterval("update('vms')",5000);
+
+    })
+</script>
+<!--<script src="/media/js/update.js"></script>-->
+{% endblock %}

@@ -1,0 +1,26 @@
+{%extends 'base.html'%}
+{% block head %}
+{%if request.user.is_superuser%}
+<li><a href="/monitoring/">Monitoring</a></li>
+<li><a href="/vms/">VMs</a></li>
+
+<li><a href="/users/">Users</a></li>
+{%endif%}
+{% endblock %}
+
+        {% block main%}
+  <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span12">
+              <applet code="com/citrix/xenserver/console/Initialize.class"
+                      archive="/media/js/XenServerConsole.jar"
+                      width="800" height="500">
+                  <PARAM NAME=SESSION VALUE="{{sesid}}" />
+                  <PARAM NAME=URL VALUE="{{loc}}" />
+                  <PARAM NAME=USEURL VALUE="true">
+              </applet>
+          </div>
+      </div>
+  </div>
+
+{%endblock%}

@@ -13,6 +13,7 @@ It's alpha version, and distributed as is.
 * No need to modify pool.
 * Can open multiple VNC console in same window(java applet now)
 * Twitter bootstrap & jQueryUI on client side
+* jTemplates used
 * Python & Django on server side
 * Ajax-based monitoring
 * Role-based control

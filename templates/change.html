@@ -1,0 +1,100 @@
+{%extends 'base.html'%}
+{% block head %}
+<li ><a href="/monitoring/">Monitoring</a></li>
+<li><a href="/vms/">VMs</a></li>
+<li><a href="/users/">Users</a></li>
+{% endblock %}
+{%block main%}
+<div class="container-fluid" id="main">
+
+    <h6>Create an account</h6>
+    <div class="span5" style="margin: 0 auto 0 auto">
+    <form class="well form" action="{{action}}" method="post">
+        {% if error %}
+        <p class="alert alert-error">{{error}}</p>
+        {% endif %}
+
+        {% if form.username.errors %}
+        <p class="alert alert-error"> This field is required</p>
+        {% endif %}
+		<div class="control-group" >
+        <label class="control-label" for="id_username">Username:</label> 
+		<div class="controls " >
+		{{ form.username }}
+</div>
+</div>
+        {% if form.password.errors %}
+        <p class="alert alert-error">This field is required</p>
+        {% endif %}
+		<div class="control-group" >
+        <label class="control-label" for="id_password">Password:</label>
+		<div class="controls " >
+		{{ form.password }}
+		</div>
+		</div>
+		<div class="control-group" >
+        <label class="control-label" for="id_email">E-mail:</label>
+		<div class="controls " >
+		{{ form.email }}
+		</div>
+		</div>
+		<div class="control-group" >
+        <label class="control-label" for="id_core_num">Core number:</label>
+		<div class="controls " >
+		{{ form.core_num }}
+		</div>
+		</div>
+		<div class="control-group" >
+        <label class="control-label" for="id_mem_limit">Memory limit:</label>
+		<div class="controls " >
+		{{ form.mem_limit }}
+		</div>
+		</div>
+        <div class="control-group">
+            <label class="control-label" for="is_superuser">Is superuser</label>
+			<div class="controls " >
+            <input type="checkbox" name="is_superuser" value="True" onclick="disable()">
+</div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="vmSelect">Select VMs</label>
+
+            <div class="controls">
+
+                    <select multiple="multiple" id="vmSelect" name="vmSelect">
+                        {%for vm in vms%}
+                        <option value="{{vm.vmr}}">{{vm.name}}</option>
+                        {%endfor%}
+                    </select>
+
+
+            </div>
+            <div class="span12" id="vms">
+
+            </div>
+
+        </div>
+        <input type="hidden" name="user" value="{{form.user}}">
+
+
+{%ifequal action "/user_add/"%}
+                <input class="btn btn-primary" type="submit" value="Create the account" />
+        {%else%}
+        <input class="btn btn-primary" type="submit" value="Edit" />
+        {%endifequal%}
+</form>
+    </div>
+</div>
+<script type="text/javascript">
+    function add(){
+        vm=$("#vmSelect");
+        op=vm.val()
+        $("#vmSelect option[value=op]").remove();
+
+        vms=$("#vms");
+
+        vms.append('<p>'+vm.val()+'</p>');
+    }
+</script>
+{%endblock%}
+

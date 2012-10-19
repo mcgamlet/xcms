@@ -1,0 +1,39 @@
+{%extends 'base.html'%}
+{% block head %}
+<li ><a href="/monitoring/">Monitoring</a></li>
+<li><a href="/vms/">VMs</a></li>
+<li class="active"><a href="/users/">Users</a></li>
+{% endblock %}
+        {%block main%}
+<div class="container-fluid" id="main">
+    {%if message%}
+    <div class="alert alert-success">{{message}}</div>
+    {%endif%}
+    <div class="control-group">
+        <a class="btn btn-primary" href="/user_add/" title="New user"><i class="icon-plus icon-white"></i>New user</a>
+        </div>
+        <table class="table table-bordered table-condensed" style="background-color: #fff">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>E-mail</th>
+                <th>Last login</th>
+            </tr>
+            </thead>
+            {%for user in users%}
+            <tr>
+                <td><a href="/user_change/?username={{user.username}}" title="edit"><i class="icon-cog"></i> </a><a href="/user_detail/?username={{user.username}}">{{user.username}}</a></td>
+                {%if user.is_superuser%}
+                <td>Superuser</td>
+                {%else%}
+                <td>User</td>
+                {%endif%}
+                <td>{{user.email}}</td>
+                <td>{{user.last_login}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+        </div>
+        {%endblock%}
+

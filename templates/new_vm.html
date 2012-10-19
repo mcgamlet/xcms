@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block head %}
+<li><a href="/monitoring/">Monitoring</a></li>
+<li><a href="/vms/">VMs</a></li>
+{%if request.user.is_superuser%}
+<li><a href="/users/">Users</a></li>
+{%endif%}
+{% endblock %}
+{% block main%}
+<div class="container-fluid" id="main">
+    <div id="message" class="alert" style="display: none">
+        <button class="close" data-dismiss="alert">×</button>
+        <strong>Please, wait...</strong> VM is creating now.
+    </div>
+    <div class="row-fluid" >
+        <form class="well form-horizontal span5" style="margin: 0 auto"  action="/new_vm/" method="post">
+            {%if err%}
+            {%for error in err%}
+            <div class="alert alert-error">{{error}}</div>
+            {%endfor%}
+            {%endif%}
+
+            <div class="control-group">
+                <label for="id_name">Name</label>
+                    <input type="text" name="name" id="id_name">
+
+
+
+            </div>
+            <div class="control-group">
+                <label for="template">Select template</label>
+                <select id="template" name="template">
+                    {% for template in templates %}
+                    <option value="{{template.vmr}}">{{template.name}}</option>
+                    {%endfor%}
+                    </select>
+            </div>
+            <div class="control-group">
+                <label for="vCPUs">vCPUs number</label>
+                   <input type="text" name="vCPUs" id="vCPUs">
+
+
+            </div>
+            <div class="control-group">
+                <label for="mem">Memory</label>
+                    <input id="mem" name="mem" type="text">
+
+
+            </div>
+            <div class="control-group">
+                <label class="checkbox">
+                    <input type="checkbox" name="run" value="run">
+                    <input type="hidden" name="host_ref" value="{{host_ref}}">
+                    Start automatically
+                </label>
+                </div>
+            <div class="control-group">
+                <button class="btn btn-primary" type="submit" onclick="new_vm_message()">Create</button>
+            </div>
+
+        </form>
+    </div>
+
+
+</div>
+{% endblock %}
