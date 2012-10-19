@@ -41,7 +41,40 @@ python 2.* and django 1.3.1 must be installed(described in the INSTALL paragraph
 
 XCMs installed like any other Django apps. Here is a example of installation on Ubuntu 10.04:
 
-*Install Apache and mod_wsgi
+* Install Apache and mod_wsgi
+
 	`sudo apt-get install apache2 libapache2-mod-wsgi`
 
+* Install setup tools and pip
 
+	`sudo apt-get install python-setuptools`
+	`sudo apt-get install python-pip`
+	
+* Install Django 1.3.1
+
+	`sudo pip install http://pypi.python.org/packages/source/D/Django/Django-1.3.1.tar.gz#md5=62d8642fd06b9a0bf8544178f8500767`
+	
+* Edit ../xcms/apache/django.wsgi file: edit both path lines by path, where xcms located
+
+* Edit settings.py file:
+	**Enter name of you future db
+	**Change TIME_ZONE,MEDIA_ROOT,TEMPLATE_DIRS accordingly with you path
+	
+* In xcms folder run:
+
+	`python manage.py syncdb`
+	
+	Don't create user now!
+	
+* Now run:
+
+	`python manage.py shell`
+	`from xcms.customuser.models import CustomUser`
+	`new_user = CustomUser.objects.create_user(username='yourname', email='', password='yourpassword')`
+	`new_user.is_superuser=True`
+	`new_user.save()`
+	`exit()`
+	
+* Create the apache site:
+
+	`sudo nano /etc/apache2/sites-available/xcms`
