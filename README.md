@@ -130,9 +130,6 @@ And activate the site
 
 * In file views.py modify a full path to the path.json file
 
-* make run.py runnable
-
-* get apache right to read path.json file
 
 * In xcms folder run
 
