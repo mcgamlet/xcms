@@ -16,8 +16,8 @@ It's alpha version, and distributed as is.
 * Python & Django on server side
 * Ajax-based monitoring
 * Role-based control
-* Available in source and .xva appliance (see INSTALL paragraph)
-* Licensed under the [MPL 2.0](http://www.mozilla.org/MPL/2.0/)
+* .xva appliance coming soon
+
 
 ### Screenshots
 
