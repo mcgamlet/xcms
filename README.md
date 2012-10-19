@@ -27,7 +27,9 @@ It's alpha version, and distributed as is.
 ### Client Requirements
 
 May not properly work in IE & Opera
+
 JavaScript and coockes must be enabled
+
 To use VNC [java jre](http://www.oracle.com/technetwork/java/javase/downloads/index.html) must be installed
 
 ### Server Requirements
