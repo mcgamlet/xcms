@@ -68,13 +68,63 @@ XCMs installed like any other Django apps. Here is a example of installation on 
 	
 * Now run:
 
-	`python manage.py shell`&nbsp;
-	`from xcms.customuser.models import CustomUser`&nbsp;
-	`new_user = CustomUser.objects.create_user(username='yourname', email='', password='yourpassword')`&nbsp;
-	`new_user.is_superuser=True`&nbsp;
-	`new_user.save()`&nbsp;
-	`exit()`&nbsp;
+	`python manage.py shell`
+	
+	`from xcms.customuser.models import CustomUser`
+	
+	`new_user = CustomUser.objects.create_user(username='yourname', email='', password='yourpassword')`
+	
+	`new_user.is_superuser=True`
+	
+	`new_user.save()`
+	
+	`exit()`
 	
 * Create the apache site:
 
 	`sudo nano /etc/apache2/sites-available/xcms`
+	
+And paste this configuration:
+
+	`<VirtualHost *:80>
+    ServerName server.com
+    ServerAlias www.server.com
+    DocumentRoot /path/to/xcms/
+    Alias /media/ /path/to/templates/media/
+    Alias /static/admin/ /usr/local/lib/python2.6/dist-packages/django/contrib/admin/media/
+
+
+    <Directory /path/to/xcms>
+        Order allow,deny
+        Allow from all
+    </Directory>
+   
+    WSGIDaemonProcess server.com processes=2 threads=15 display-name=%{GROUP}
+    WSGIProcessGroup server.com
+    WSGIScriptAlias / /path/to/xcms/apache/django.wsgi
+
+</VirtualHost>`
+
+And activate the site
+
+	`sudo a2ensite xcms`
+	
+	`sudo /etc/init.d/apache2 reload`
+	
+* Modify path.json file: enter existing ip, url, login and pass of your pool master and right path to the hosts and vms dump files
+
+* In file views.py modify a full path to the path.json file
+
+* make run.py runnable
+
+* get apache right to read path.json file
+
+* In xcms folder run
+
+	`python run.py`
+	
+* restart apache
+
+Now you able to open youserver.com in browser and enter login/pass of user you created
+
+Enjoy:)
