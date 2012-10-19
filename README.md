@@ -63,7 +63,7 @@ XCMs installed like any other Django apps. Here is a example of installation on 
 
 * Edit folder rule:
 
-	`chmod -R 774 xcms`
+	`chmod -R 777 xcms`
 	
 * In xcms folder run:
 
@@ -75,7 +75,7 @@ XCMs installed like any other Django apps. Here is a example of installation on 
 	
 	`exit()`
 	
-	`chmod 774 databasename`
+	`chmod 777 databasename`
 
 	`python manage.py syncdb`
 	
