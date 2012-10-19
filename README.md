@@ -60,8 +60,22 @@ XCMs installed like any other Django apps. Here is a example of installation on 
 * Edit settings.py file:
 	**Enter name of you future db &nbsp;
 	**Change TIME_ZONE,MEDIA_ROOT,TEMPLATE_DIRS accordingly with you path
+
+* Edit folder rule:
+
+	`chmod -R 774 xcms`
 	
 * In xcms folder run:
+
+	`python`
+	
+	`import sqlite3`
+	
+	`conn = sqlite3.connect('databasename')`
+	
+	`exit()`
+	
+	`chmod 774 databasename`
 
 	`python manage.py syncdb`
 	
@@ -90,8 +104,8 @@ And paste this configuration:
 	<VirtualHost *:80>
     ServerName server.com
     ServerAlias www.server.com
-    DocumentRoot /path/to/xcms/
-    Alias /media/ /path/to/templates/media/
+    DocumentRoot /path/to/xcms
+    Alias /media/ /path/to/xcms/templates/media/
     Alias /static/admin/ /usr/local/lib/python2.6/dist-packages/django/contrib/admin/media/
 
 
