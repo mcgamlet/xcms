@@ -86,7 +86,6 @@ XCMs installed like any other Django apps. Here is a example of installation on 
 	
 And paste this configuration:
 
-	`
 	<VirtualHost *:80>
     ServerName server.com
     ServerAlias www.server.com
@@ -105,7 +104,6 @@ And paste this configuration:
     WSGIScriptAlias / /path/to/xcms/apache/django.wsgi
 
 	</VirtualHost>
-	`
 
 And activate the site
 
