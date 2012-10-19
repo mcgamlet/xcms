@@ -47,7 +47,7 @@ XCMs installed like any other Django apps. Here is a example of installation on 
 
 * Install setup tools and pip
 
-	`sudo apt-get install python-setuptools`
+	`sudo apt-get install python-setuptools`&nbsp;	
 	`sudo apt-get install python-pip`
 	
 * Install Django 1.3.1
@@ -57,7 +57,7 @@ XCMs installed like any other Django apps. Here is a example of installation on 
 * Edit ../xcms/apache/django.wsgi file: edit both path lines by path, where xcms located
 
 * Edit settings.py file:
-	**Enter name of you future db
+	**Enter name of you future db &nbsp;
 	**Change TIME_ZONE,MEDIA_ROOT,TEMPLATE_DIRS accordingly with you path
 	
 * In xcms folder run:
@@ -68,12 +68,12 @@ XCMs installed like any other Django apps. Here is a example of installation on 
 	
 * Now run:
 
-	`python manage.py shell`
-	`from xcms.customuser.models import CustomUser`
-	`new_user = CustomUser.objects.create_user(username='yourname', email='', password='yourpassword')`
-	`new_user.is_superuser=True`
-	`new_user.save()`
-	`exit()`
+	`python manage.py shell`&nbsp;
+	`from xcms.customuser.models import CustomUser`&nbsp;
+	`new_user = CustomUser.objects.create_user(username='yourname', email='', password='yourpassword')`&nbsp;
+	`new_user.is_superuser=True`&nbsp;
+	`new_user.save()`&nbsp;
+	`exit()`&nbsp;
 	
 * Create the apache site:
 
